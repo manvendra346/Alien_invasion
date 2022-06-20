@@ -7,6 +7,7 @@ from aliens import Alien
 from button import Button
 from time import sleep
 from game_stats import GameStats
+from scoreboard import ScoreBoard
 
 class AlienInvasion :
     def __init__(self):
@@ -21,6 +22,7 @@ class AlienInvasion :
         self.settings = Settings()
         self.stats = GameStats(self)
         self.play_button = Button(self, "Play")
+        self.scores = ScoreBoard(self)
         #ship and bullet
         self.ship = Ship(self)  
         self.bullets = pygame.sprite.Group()
@@ -71,6 +73,7 @@ class AlienInvasion :
             self.aliens.empty()
             self._create_fleet()
             self.ship.center_ship()
+            self.scores.prep_ships()
             sleep(0.5)
         else:
             self.stats.game_active = False
@@ -85,9 +88,16 @@ class AlienInvasion :
 
     def _check_bullet_alien_collison(self):
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+        if collisions:
+            for aliens in collisions.values():    
+                self.stats.score += self.settings.kill_score*len(aliens)
+                if self.stats.score > self.stats.high_score:
+                    self.stats.high_score = self.stats.score
+            self.scores.prep_score()
         if not self.aliens:
             self.bullets.empty()
             self._create_fleet()
+            self.settings.change_speed()
 
     def _check_events(self):
         for event in pygame.event.get():
@@ -144,6 +154,7 @@ class AlienInvasion :
 
     def _check_mouse_play_click(self,mouse_pos):
         if self.play_button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
+            self.settings.reset_dynamic_settings()
             self.stats.reset_stats()
             self.aliens.empty()
             self.stats.game_active = True
@@ -157,6 +168,7 @@ class AlienInvasion :
         # self.screen.fill(self.settings.bg_color)
         self.screen.blit(self.bg,(0,0))
         self.ship.blitme()
+        self.scores.show_score()
         self.aliens.draw(self.screen)# built in sprite method to draw 
         for bullet in self.bullets.sprites():
             bullet.draw()
