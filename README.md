@@ -1,7 +1,25 @@
-# Alien_invasion
+# Alien Invasion
 
-Simple alien game made using pygame library of python
-it mainly uses sideways arrow keys(moving) and spacebar(shooting)
-the game gradually gets fater which provide a bit of challange
-you can change the setting of the game in "settings.py" and 
-# have fun!
+A simple arcade-style alien shooter made with Python and Pygame.
+
+## How to Play
+
+- **Arrow keys** — move the ship left/right
+- **Spacebar** — shoot
+- **Q** — quit
+- Click **Play** to start a new game
+
+The game gradually gets faster each wave, increasing the challenge.
+
+## Setup
+
+**Requirements:** Python 3 and Pygame
+
+```bash
+pip install pygame
+python main.py
+```
+
+## Configuration
+
+You can tweak game settings (speed, bullet count, ship lives, etc.) in `settings.py`.
