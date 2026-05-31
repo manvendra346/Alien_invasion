@@ -13,10 +13,11 @@ class AlienInvasion :
     def __init__(self):
         pygame.init() #necessary settings for for auto initialization
         #background and screen
-        self.bg = pygame.image.load("images/background_2.jpg")
         self.screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
-        self.screen_height = self.screen.get_rect().height#full screena nd getting widt and height
+        self.screen_height = self.screen.get_rect().height
         self.screen_width = self.screen.get_rect().width
+        bg_raw = pygame.image.load("images/background_2.jpg")
+        self.bg = pygame.transform.scale(bg_raw, (self.screen_width, self.screen_height))
         self.screen_rect = self.screen.get_rect()
         #setting and stats
         self.settings = Settings()
